@@ -274,6 +274,7 @@ int main(int argc, char** argv) {
 	// initialize SDL video:
 	int winSizeX = 640;
 	int winSizeY = 480;
+	Image *image;
 	unsigned int fps = 0;
 	unsigned int flat = 0;
 	unsigned int setenspec = 1;
@@ -311,8 +312,7 @@ int main(int argc, char** argv) {
 	if (initdraw(nil, nil, "gears") < 0) {
 		sysfatal("%r");
 	}
-	winSizeX = Dx(screen->r);
-	winSizeY = Dy(screen->r);
+	image = allocimage(display, Rect(0, 0, winSizeX, winSizeY), screen->chan, 0, DNotacolor);
 
 	// initialize TinyGL:
 	// unsigned int pitch;
@@ -431,7 +431,9 @@ int main(int argc, char** argv) {
 		}
 		// swap buffers:
 
-		loadimage(screen, screen->r, (uchar*)frameBuffer->pbuf, winSizeX*winSizeY*4);
+		loadimage(image, image->r, (uchar*)frameBuffer->pbuf, winSizeX*winSizeY*4);
+		draw(screen, screen->r, image, nil, ZP);
+		flushimage(display, 1);
 		/*
 		if (!noSDL)
 			ZB_copyFrameBuffer(frameBuffer, sdl_screen->pixels, sdl_screen->pitch);
