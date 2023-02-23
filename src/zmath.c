@@ -21,23 +21,25 @@ void gl_M4_Id(M4* a) {
 				else
 					a->m[i][j] = 0.0;
 	*/
-	const M4 c = (M4){{
-		{1, 0, 0, 0},
-		{0, 1, 0, 0},
-		{0, 0, 1, 0},
-		{0, 0, 0, 1},
-	}};
-	*a = c;
+	const GLfloat m[4][4] = {
+		1, 0, 0, 0,
+		0, 1, 0, 0,
+		0, 0, 1, 0,
+		0, 0, 0, 1,
+	};
+	memmove(a->m, m, sizeof m);
 }
 
 GLint gl_M4_IsId(M4* a) {
-	
-	const M4 c = (M4){{
-		{1, 0, 0, 0},
-		{0, 1, 0, 0},
-		{0, 0, 1, 0},
-		{0, 0, 0, 1},
-	}};
+
+	const GLfloat m[4][4] = {
+		1, 0, 0, 0,
+		0, 1, 0, 0,
+		0, 0, 1, 0,
+		0, 0, 0, 1,
+	};
+	M4 c;
+	memmove(c.m, m, sizeof m);
 	return (memcmp(a->m, c.m, 16 * sizeof(GLfloat)) == 0);
 	/*
 		for (i = 0; i < 4; i++)

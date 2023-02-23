@@ -1,0 +1,10 @@
+</$objtype/mkfile
+
+CFLAGS=-Fpw -I/sys/include/npe -I/sys/include/npe/SDL2 -I ../include -D__plan9__ -D__${objtype}__ -DTGL_FEATURE_32_BITS=1 -DTGL_FEATURE_RENDER_BITS=32
+LIB=../src/libgl.$O.a
+
+OFILES=\
+	gears.$O\
+
+
+</sys/src/cmd/mkone

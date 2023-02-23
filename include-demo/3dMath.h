@@ -252,19 +252,19 @@ static inline f_ lengthv4( vec4 a){
 	return sqrtf(a.d[0] * a.d[0] + a.d[1] * a.d[1] + a.d[2] * a.d[2] + a.d[3] * a.d[3]);
 }
 static inline vec3 multvec3( vec3 a,  vec3 b){
-	return (vec3){
-		.d[0]=a.d[0]*b.d[0],
-		.d[1]=a.d[1]*b.d[1],
-		.d[2]=a.d[2]*b.d[2]
-	};
+	vec3 out;
+	out.d[0] = a.d[0]*b.d[0];
+	out.d[1] = a.d[1]*b.d[1];
+	out.d[2] = a.d[2]*b.d[2];
+	return out;
 }
 static inline vec4 multvec4( vec4 a,  vec4 b){
-	return (vec4){
-		.d[0]=a.d[0]*b.d[0],
-		.d[1]=a.d[1]*b.d[1],
-		.d[2]=a.d[2]*b.d[2],
-		.d[3]=a.d[3]*b.d[3]
-	};
+	vec4 out;
+	out.d[0] = a.d[0]*b.d[0];
+	out.d[1] = a.d[1]*b.d[1];
+	out.d[2] = a.d[2]*b.d[2];
+	out.d[3] = a.d[3]*b.d[3];
+	return out;
 }
 static inline vec3 clampvec3( vec3 a,  vec3 min,  vec3 max){
 	vec3 ret;
@@ -288,12 +288,12 @@ static inline f_ dotv4( vec4 a,  vec4 b){
 	return a.d[0] * b.d[0] + a.d[1] * b.d[1] + a.d[2] * b.d[2] + a.d[3] * b.d[3]; 
 }
 static inline vec4 getrow( mat4 a,  uint index){
-	return (vec4){
-		.d[0]=a.d[index],
-		.d[1]=a.d[4+index],
-		.d[2]=a.d[8+index],
-		.d[3]=a.d[12+index]
-	};
+	vec4 ret;
+	ret.d[0] = a.d[index];
+	ret.d[1] = a.d[4+index];
+	ret.d[2] = a.d[8+index];
+	ret.d[3] = a.d[12+index];
+	return ret;
 }
 static inline mat4 swapRowColumnMajor( mat4 in){
 	mat4 result;
@@ -311,12 +311,12 @@ static inline mat4 swapRowColumnMajor( mat4 in){
 }
 
 static inline vec4 getcol( mat4 a,  uint index){
-	return (vec4){
-		.d[0]=a.d[index*4],
-		.d[1]=a.d[index*4+1],
-		.d[2]=a.d[index*4+2],
-		.d[3]=a.d[index*4+3]
-	};
+	vec4 ret;
+	ret.d[0] = a.d[index*4];
+	ret.d[1] = a.d[index*4+1];
+	ret.d[2] = a.d[index*4+2];
+	ret.d[3] = a.d[index*4+3];
+	return ret;
 }
 static inline mat4 multm4( mat4 a,  mat4 b){
 	mat4 ret;
@@ -366,11 +366,24 @@ static inline vec3 scalev3( f_ s,  vec3 i){i.d[0] *= s; i.d[1] *= s; i.d[2] *= s
 static inline vec4 scalev4( f_ s,  vec4 i){i.d[0] *= s; i.d[1] *= s; i.d[2] *= s;i.d[3] *= s; return i;}
 
 static inline vec3 normalizev3( vec3 a){
-  	if(lengthv3(a)==0) return (vec3){.d[0]=0.0,.d[1]=0.0,.d[2]=1.0};
+	vec3 ret;
+  	if(lengthv3(a)==0){
+		ret.d[0]=0.0;
+		ret.d[1]=0.0;
+		ret.d[2]=1.0;
+		return ret;
+	}
 	return scalev3(1.0/lengthv3(a), a);
 }
 static inline vec4 normalizev4( vec4 a){
-  	if(lengthv4(a)==0) return (vec4){.d[0]=0.0,.d[1]=0.0,.d[2]=1.0,.d[3]=0.0};
+	vec4 ret;
+  	if(lengthv4(a)==0){
+		ret.d[0]=0.0;
+		ret.d[1]=0.0;
+		ret.d[2]=1.0;
+		ret.d[2]=0.0;
+		return ret;
+	}
 	return scalev4(1.0/lengthv4(a), a);
 }
 static inline vec3 addv3( vec3 aa,  vec3 b){
@@ -390,10 +403,13 @@ static inline vec4 addv4( vec4 aa,  vec4 b){
 static inline vec3 subv3( vec3 a,  vec3 b){
 	return addv3(a,scalev3(-1,b));
 }
-static inline mat4 identitymat4(){
-	return scalemat4(
-		(vec4){.d[0]=1.0,.d[1]=1.0,.d[2]=1.0,.d[3]=1.0}
-	);
+static inline mat4 identitymat4(void){
+	vec4 v;
+	v.d[0]=1.0;
+	v.d[1]=1.0;
+	v.d[2]=1.0;
+	v.d[3]=1.0;
+	return scalemat4(v);
 }
 static inline mat4 translate( vec3 t){
 	mat4 tm = identitymat4();
@@ -414,19 +430,19 @@ static inline vec3 reflect( vec3 in,  vec3 norm){
 	);
 }
 static inline vec4 upv3( vec3 in,  f_ w){
-	return (vec4){
-		.d[0]=in.d[0],
-		.d[1]=in.d[1],
-		.d[2]=in.d[2],
-		.d[3]=w
-	};
+	vec4 ret;
+	ret.d[0]=in.d[0];
+	ret.d[1]=in.d[1];
+	ret.d[2]=in.d[2];
+	ret.d[3]=w;
+	return ret;
 }
 static inline vec3 downv4( vec4 in){
-	return (vec3){
-		.d[0]=in.d[0],
-		.d[1]=in.d[1],
-		.d[2]=in.d[2]
-	};
+	vec3 ret;
+	ret.d[0]=in.d[0];
+	ret.d[1]=in.d[1];
+	ret.d[2]=in.d[2];
+	return ret;
 }
 static inline mat4 lookAt( vec3 eye,  vec3 at,  vec3 up){
 	mat4 cw = identitymat4();
@@ -498,12 +514,11 @@ static inline int boxvboxbool (aabb b1, aabb b2){
 		return 1;
 }
 static inline vec4 boxvbox( aabb b1,  aabb b2){ /*Just points along the minimum separating axis, Nothing fancy.*/
-	vec4 ret = (vec4){
-		.d[0]=0,
-		.d[1]=0,
-		.d[2]=0,
-		.d[3]=0
-	};
+	vec4 ret;
+	ret.d[0]=0;
+	ret.d[1]=0;
+	ret.d[2]=0;
+	ret.d[3]=0;
 	vec3 sumextents = addv3(b1.e,b2.e);
 	vec3 b1c = downv4(b1.c);
 	vec3 b2c = downv4(b2.c);
@@ -530,12 +545,10 @@ static inline vec4 boxvbox( aabb b1,  aabb b2){ /*Just points along the minimum 
 	ret.d[0] = axispen[0].d[0];
 	for(int i = 1; i < 6; i++){
 		if(fabs(axispen[i/3].d[i%3]) < fabs(ret.d[3])){
-			ret = (vec4){
-						.d[0]=0,
-						.d[1]=0,
-						.d[2]=0,
-						.d[3]=(axispen[i/3].d[i%3])
-					};
+			ret.d[0]=0;
+			ret.d[1]=0;
+			ret.d[2]=0;
+			ret.d[3]=(axispen[i/3].d[i%3]);
 			ret.d[i%3] = ret.d[3];
 			ret.d[3] = fabs(ret.d[3]);
 		}
@@ -570,14 +583,13 @@ static inline vec4 spherevaabb( vec4 sph,  aabb box){
 			return boxvbox(virt,box);
 		}
 	}
-	else
-		return (vec4){
-			.d[0]=0,
-			.d[1]=0,
-			.d[2]=0,
-			.d[3]=0
-		};
-		
+	else {
+		ret.d[0]=0;
+		ret.d[1]=0;
+		ret.d[2]=0;
+		ret.d[3]=0;
+		return ret;
+	}	
 }
 
 

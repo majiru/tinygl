@@ -1,0 +1,34 @@
+</$objtype/mkfile
+
+CFLAGS=-Fpw -I/sys/include/npe -I/sys/include/npe/SDL2 -I ../include -D__plan9__ -D__${objtype}__ -DTGL_FEATURE_32_BITS -DTGL_FEATURE_RENDER_BITS=32
+LIB=libgl.$O.a
+CLEANFILES=libgl.$O.a
+
+OFILES=api.$O\
+	list.$O\
+	vertex.$O\
+	init.$O\
+	matrix.$O\
+	texture.$O\
+	misc.$O\
+	clear.$O\
+	light.$O\
+	clip.$O\
+	select.$O\
+	get.$O\
+	zbuffer.$O\
+	zline.$O\
+	ztriangle.$O\
+	zmath.$O\
+	image_util.$O\
+	msghandling.$O\
+	arrays.$O\
+	specbuf.$O\
+	memory.$O\
+	ztext.$O\
+	zraster.$O\
+	accum.$O\
+	zpostprocess.$O\
+
+
+</sys/src/cmd/mksyslib
